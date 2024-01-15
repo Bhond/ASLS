@@ -1,0 +1,6 @@
+#pragma once
+
+// Paths
+#cmakedefine PATH_ROOT "@PATH_ROOT@"
+#cmakedefine PATH_SHADERS "@PATH_SHADERS@"
+#cmakedefine PATH_SCRIPTS "@PATH_SCRIPTS@"
