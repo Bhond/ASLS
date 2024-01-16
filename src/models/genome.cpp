@@ -56,23 +56,23 @@ void Genome::activate()
 	{
 		if (current->type == NodeTypes::Input)
 		{
-			current->activation = getNodeAt(current->idx)->state; // Input
+			current->activation = current->state; // Input
 		}
 		else
 		{
 			// Self
-			if (current->selfConnection->gater > -1)
+			if (current->selfConnection->gater)
 			{
-				current->state = current->selfConnection->weight * current->state * getNodeAt(current->selfConnection->gater)->activation;
+				current->state = current->selfConnection->weight * current->state * current->selfConnection->gater->activation;
 			}
 
 			// Incoming
 			for (Connection* c : current->incomingConnections)
 			{
-				if (c->gater > -1)
-					current->state += c->weight * getNodeAt(c->from)->activation * getNodeAt(c->gater)->activation;
+				if (c->gater)
+					current->state += c->weight * c->from->activation * c->gater->activation;
 				else
-					current->state += c->weight * getNodeAt(c->from)->activation;
+					current->state += c->weight * c->from->activation;
 			}
 
 			current->state += current->bias;
@@ -96,6 +96,9 @@ void Genome::squash(Node* n)
 		break;
 	case Sinusoide:
 		n->activation = std::sin(n->state);
+		break;
+	case Tanh:
+		n->activation = std::tanh(n->state);
 		break;
 	case Logistic:
 		n->activation = 1 / (1 + std::exp( - n->state)); // For now, sigmoid only...
@@ -187,24 +190,40 @@ void Genome::insertNode(Node* toInsert, Node* after)
 	}
 }
 
-void Genome::addConnection()
+void Genome::addConnection(Node* from, Node* to)
 {
+	to->incomingConnections.push_back(new Connection(from, to));
 }
 
-void Genome::removeNode()
-{
-}
-
-void Genome::removeConnection()
-{
-}
-
-Genome::Node* Genome::getNodeAt(const int& idx)
+void Genome::removeNode(Node* node)
 {
 	Node* n = root;
-	while (n && n->idx != idx)
+	while (n && n != node)
 	{
-		n = n->next;
+		n=n->next;
 	}
-	return n;
+
+	if (n->next)
+	{
+		if (n->next->next)
+		{
+			n->next = n->next->next;
+			while (n->next)
+			{
+				n->next->idx = n->idx + 1;
+				n = n->next;
+			}
+		}
+	}
+	delete node;
+}
+
+void Genome::removeConnection(Node* from, Node* to)
+{
+	std::remove_if(to->incomingConnections.begin(), to->incomingConnections.end(),
+		[from](Connection*& connection)
+		{
+			return connection->from == from;
+		}
+	);
 }

@@ -1,12 +1,14 @@
 #pragma once
 
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include "control.h"
 #include "../models/entitymodel.h"
 
 class Entity : public Control<EntityModel>
 {
 private:
+	sf::ConvexShape* shape{ nullptr };
 
 public:
 	Entity() = delete;
@@ -14,6 +16,8 @@ public:
 	~Entity();
 
 public:
-	void draw() override;
+	void buildGeometry() override;
+	void updateGeometryPosition(sf::RenderWindow* w) override;
+	void draw(sf::RenderWindow* w) override;
 
 };

@@ -1,6 +1,7 @@
 #include "entities.h"
 
-Entities::Entities()
+Entities::Entities(sf::RenderWindow* w)
+	: GroupControl(w)
 {
 }
 

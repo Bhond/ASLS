@@ -37,7 +37,6 @@ void VC::onInit()
 	float simHeight = controlContainerHeight;
 
 	simulation = new Simulation(this, QPoint(posX, posY), QSize(simWidth, simHeight), 1);
-	simulation->onInit();
 	simulation->show();
 
 	// Controls

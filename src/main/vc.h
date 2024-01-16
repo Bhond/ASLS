@@ -23,6 +23,7 @@ private:
 	const float Width = 1800;
 	const float Height = 1500;
 
+
 	Simulation* simulation = nullptr;
 	QPushButton* playButton = nullptr;
 	QPushButton* pauseButton = nullptr;

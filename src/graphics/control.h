@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 template <typename modelT>
 class Control
 {
@@ -11,7 +13,9 @@ protected:
 	~Control();
 
 public:
-	virtual void draw() = 0;
+	virtual void draw(sf::RenderWindow* w) = 0;
+	virtual void buildGeometry() = 0;
+	virtual void updateGeometryPosition(sf::RenderWindow* w) = 0;
 };
 
 template <typename modelT>

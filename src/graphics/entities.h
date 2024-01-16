@@ -7,7 +7,7 @@
 class Entities : public GroupControl<EntityModel, Entity>
 {
 public:
-	Entities();
+	Entities(sf::RenderWindow* w);
 	~Entities();
 
 public:

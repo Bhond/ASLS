@@ -10,6 +10,8 @@
 
 #include "../graphics/qsfmlcanvas.h"
 #include "../models/solver.h"
+#include "../models/genome.h"
+#include "../graphics/entities.h"
 
 class Simulation : public QSFMLCanvas
 {
@@ -25,6 +27,9 @@ private:
 	double scaleWidth { 1 };
 	double scaleHeight { 1 };
 	double zoomFactor { 1 };
+	Genome genome;
+	Entities* entitiesGroupControl;
+	EntityModel* testModel;
 
 private:
 	const sf::Color BackgroundColor = sf::Color(5, 5, 10, 255);
