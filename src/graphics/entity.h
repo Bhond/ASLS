@@ -9,6 +9,7 @@ class Entity : public Control<EntityModel>
 {
 private:
 	sf::ConvexShape* shape{ nullptr };
+	sf::CircleShape* foodSearchRegion{ nullptr };
 
 public:
 	Entity() = delete;
@@ -19,5 +20,6 @@ public:
 	void buildGeometry() override;
 	void updateGeometryPosition(sf::RenderWindow* w) override;
 	void draw(sf::RenderWindow* w) override;
+	void onSelected(sf::RenderWindow* w) override;
 
 };

@@ -13,8 +13,9 @@ VC::~VC()
 	delete resetButton;
 	delete scaleWidthField;
 	delete scaleHeightField;
-	delete gField;
 	delete overlayBox;
+	delete healthBar;
+	delete hungerBar;
 }
 
 void VC::onInit()
@@ -44,7 +45,7 @@ void VC::onInit()
 	float controlsY = margin;
 	float controlsStep = 10;
 
-	/*playButton = new QPushButton("Play", this);
+	playButton = new QPushButton("Play", this);
 	float playButtonX = controlsX - playButton->size().width() * 0.5;
 	playButton->move(QPoint(playButtonX, controlsY));
 	connect(playButton, SIGNAL(clicked()), simulation, SLOT(play()));
@@ -55,13 +56,29 @@ void VC::onInit()
 	pauseButton->move(QPoint(pauseButtonX, controlsY));
 	connect(pauseButton, SIGNAL(clicked()), simulation, SLOT(pause()));
 
-	resetButton = new QPushButton("Reset", this);
+	/*resetButton = new QPushButton("Reset", this);
 	float resetButtonX = controlsX - resetButton->size().width() * 0.5;
 	controlsY += controlsStep + pauseButton->size().height();
 	resetButton->move(QPoint(resetButtonX, controlsY));
-	connect(resetButton, SIGNAL(clicked()), simulation, SLOT(reset()));
+	connect(resetButton, SIGNAL(clicked()), simulation, SLOT(reset()));*/
+	
+	healthBar = new LabelProgressbarPair("Health", 100, this);
+	healthBar->resize(QSize(std::min(controlContainerHeight - 2 * margin, 300.0f), 70.0));
+	float healthBarX = controlsX - healthBar->size().width() * 0.5;
+	controlsY += controlsStep + pauseButton->size().height();
+	healthBar->move(QPoint(healthBarX, controlsY));
+	healthBar->hide();
+	//connect(resetButton, SIGNAL(clicked()), simulation, SLOT(reset()));
 
-	scaleWidthField = new LabelValuePair("Scale width", 1.0, this);
+	hungerBar = new LabelProgressbarPair("Hunger", 0, this);
+	hungerBar->resize(QSize(std::min(controlContainerHeight - 2 * margin, 300.0f), 70.0));
+	float hungerBarX = controlsX - hungerBar->size().width() * 0.5;
+	controlsY += controlsStep + healthBar->size().height();
+	hungerBar->move(QPoint(hungerBarX, controlsY));
+	hungerBar->hide();
+	//connect(resetButton, SIGNAL(clicked()), simulation, SLOT(reset()));
+
+	/*scaleWidthField = new LabelValuePair("Scale width", 1.0, this);
 	scaleWidthField->resize(QSize(std::min(controlContainerWidth - 2 * margin, 300.0f), 70.0));
 	float scaleWidthFieldX = controlsX - scaleWidthField->size().width() * 0.5;
 	controlsY += controlsStep + resetButton->size().height();
@@ -74,6 +91,33 @@ void VC::onInit()
 	controlsY += controlsStep + scaleWidthField->size().height();
 	scaleHeightField->move(QPoint(scaleHeightFieldX, controlsY));
 	connect(scaleHeightField, SIGNAL(valueChanged()), this, SLOT(onScaleHeightFieldValueChanged()));*/
+
+	// Simulation callbacks
+	simulation->setOnEntityModelSelected([this](EntityModel* m)
+		{
+			if (m)
+			{
+				healthBar->setProgress(m->health * 100);
+				hungerBar->setProgress(m->hunger * 100);
+				healthBar->show();
+				hungerBar->show();
+			}
+		});
+	simulation->setOnEntityModelDeselected([this](EntityModel* m)
+		{
+				healthBar->hide();
+				hungerBar->hide();
+		});
+	simulation->setOnSimulationRenderTick([this](EntityModel* m)
+		{
+			if (m)
+			{
+				healthBar->setProgress(m->health * 100);
+				hungerBar->setProgress(m->hunger * 100);
+			}
+		});
+
+
 }
 
 void VC::display()

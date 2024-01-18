@@ -43,7 +43,15 @@ add_executable(${PROJECT_NAME}
 "models/entitymodel.h" 
 "models/entitymodel.cpp"
 "models/solver.cpp"
-"models/solver.h" "models/genome.h" "models/genome.cpp" "graphics/groupcontrol.h"  "graphics/control.h" "main/stats.h" "main/stats.cpp")
+"models/solver.h"
+"models/genome.h"
+"models/genome.cpp"
+"graphics/groupcontrol.h" 
+"graphics/control.h"
+"main/stats.h"
+"main/stats.cpp"
+"graphics/labelprogressbarpair.h"
+"graphics/labelprogressbarpair.cpp" "models/model.h" "models/model.cpp")
 
 # Links
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-system sfml-network sfml-graphics sfml-window)

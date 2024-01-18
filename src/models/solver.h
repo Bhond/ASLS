@@ -10,13 +10,21 @@
 class Solver
 {
 private:
-	EntityModel* entityTest{ nullptr };
+	std::default_random_engine* generator;
+	std::function<void(EntityModel*)> func;
+	std::vector<EntityModel*> entities;
+	std::function<void(EntityModel*)> onEntityModelCreated;
+	std::function<void(EntityModel*)> onEntityModelDeleted;
 
 public:
 	Solver(sf::RenderWindow* w);
 	~Solver();
 
 public:
-	void onEntityCreated(std::function<void(EntityModel*)>& lambda);
-	void solve();
+	void addEntity();
+	void solve(double dt);
+
+public:
+	void setOnEntityModelCreated(std::function<void(EntityModel*)> func);
+	void setOnEntityModelDeleted(std::function<void(EntityModel*)> func);
 };

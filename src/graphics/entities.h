@@ -4,7 +4,7 @@
 #include "groupcontrol.h"
 #include "../models/entitymodel.h"
 
-class Entities : public GroupControl<EntityModel, Entity>
+class Entities : public GroupControl<EntityModel>
 {
 public:
 	Entities(sf::RenderWindow* w);

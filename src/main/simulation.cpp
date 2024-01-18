@@ -13,8 +13,9 @@ Simulation::Simulation(QWidget* parent, const QPoint& position, const QSize& siz
 Simulation::~Simulation()
 {
     delete solver;
-    delete testModel;
     delete entitiesGroupControl;
+    delete genome;
+    selectedModel = nullptr; // Destroyed elsewhere
 }
 
 void Simulation::onInit()
@@ -27,21 +28,21 @@ void Simulation::onInit()
     Background.setFillColor(BackgroundColor);
 
     entitiesGroupControl = new Entities(this);
-    testModel = new EntityModel();
-    entitiesGroupControl->buildControl(testModel);
 
     solver = new Solver(this);
-    //genome.addNode("Test0", Genome::NodeTypes::Input, Genome::SquashTypes::Identity);
-    //genome.addNode("Test1", Genome::NodeTypes::Output, Genome::SquashTypes::Identity);
-    //genome.addNode("Test2", Genome::NodeTypes::Hidden, Genome::SquashTypes::Identity);
-    //genome.addNode("Test3", Genome::NodeTypes::Output, Genome::SquashTypes::Identity);
-    //genome.addNode("Test4", Genome::NodeTypes::Input, Genome::SquashTypes::Identity);
-    //genome.addNode("Test5", Genome::NodeTypes::Input, Genome::SquashTypes::Identity);
-    //genome.addNode("Test6", Genome::NodeTypes::Input, Genome::SquashTypes::Identity);
-    //genome.addNode("Test7", Genome::NodeTypes::Hidden, Genome::SquashTypes::Identity);
-    //genome.addNode("Test8", Genome::NodeTypes::Output, Genome::SquashTypes::Identity);
-    ////0,4,2,5,1,3
-
+    solver->setOnEntityModelCreated([this](EntityModel* m) {
+        if (m)
+        {
+            entitiesGroupControl->buildControl(m);
+        }
+        });
+    solver->setOnEntityModelDeleted([this](EntityModel* m) {
+        if (m == selectedModel)
+        {
+            onEntityModelDeselected(selectedModel);
+            selectedModel = nullptr;
+        }
+        });
 }
 
 void Simulation::onScroll(const double& amt)
@@ -52,10 +53,22 @@ void Simulation::onScroll(const double& amt)
         zoomFactor -= 1;
 }
 
+void Simulation::mousePressEvent(QMouseEvent* event)
+{
+    entitiesGroupControl->computeHitBoxes(this);
+    selectedModel = entitiesGroupControl->hasHitAControl(event->localPos().x(), event->localPos().y());
+    if (selectedModel)
+        onEntityModelSelected(selectedModel);
+    else
+        onEntityModelDeselected(selectedModel);
+
+}
+
 void Simulation::onUpdate()
 {
     if (playing)
     {
+        solver->solve(((double)myTimer.interval()) / 1000);
     }
     render();
 }
@@ -76,27 +89,72 @@ void Simulation::render()
     // Draw controls
     entitiesGroupControl->draw();
 
-    /*Genome::Node* tmp = genome.root;
-    double x = 50;
-    double yStart = 100;
-    double y = 100;
-    double xStep = 100;
-    double yStep = 100;
-    while (tmp)
+    if (selectedModel)
     {
-        sf::CircleShape c { 20 };
-        c.move(x, y);
-        c.setFillColor(sf::Color::Red);
-        draw(c);
-        y += yStep;
-        if (tmp->next && tmp->next->type != tmp->type)
+        Genome::Node* tmp = selectedModel->genome->root;
+        double x = 50;
+        double yStart = 100;
+        double y = 100;
+        double xStep = 100;
+        double yStep = 100;
+        while (tmp)
         {
-            x += xStep;
-            y = yStart;
-        }
-        tmp = tmp->next;
-    }*/
+            sf::CircleShape c { 20 };
+            c.move(x, y);
 
+            int idx0{ 0 };
+            int idx1{ 0 };
+            if (tmp->activation < 0)
+            {
+                idx1 = 4;
+            }
+            else
+            {
+                idx0 = 6;
+                idx1 = 9;
+            }
+
+            double coef0 = std::abs(std::abs(tmp->activation) - 2.0) / 2.0;
+            Color color0 = colorLerp(Colors[idx0], Colors[idx1], coef0);
+            c.setFillColor(sf::Color(color0.r, color0.g, color0.b));
+            draw(c);
+
+            tmp->pos2DX = x + 20;
+            tmp->pos2DY = y + 20;
+
+            for (Genome::Connection* connection : tmp->incomingConnections)
+            {
+                sf::Vertex line[] =
+                {
+                    sf::Vertex(sf::Vector2f(connection->from->pos2DX, connection->from->pos2DY)),
+                    sf::Vertex(sf::Vector2f(connection->to->pos2DX, connection->to->pos2DY))
+                };
+                if (connection->weight < 0)
+                {
+                    idx0 = 0;
+                    idx1 = 4;
+                }
+                else
+                {
+                    idx0 = 6;
+                    idx1 = 9;
+                }
+                double coef1 = std::abs(std::abs(connection->weight) - 2.0) / 2.0;
+                Color color1 = colorLerp(Colors[idx0], Colors[idx1], coef0);
+                line->color = sf::Color(color1.r, color1.g, color1.b);
+                draw(line, 2, sf::Lines);
+            }
+
+            y += yStep;
+            if ((tmp->next && tmp->next->type != tmp->type) || y > 500)
+            {
+                x += xStep;
+                y = yStart;
+            }
+            tmp = tmp->next;
+        }
+    }    
+    onSimulationRenderTick(selectedModel);
 }
 
 double Simulation::getScaleWidth()
@@ -117,4 +175,19 @@ void Simulation::setScaleWidth(const double& amt)
 void Simulation::setScaleHeight(const double& amt)
 {
     scaleHeight = amt;
+}
+
+void Simulation::setOnEntityModelSelected(std::function<void(EntityModel*)> func)
+{
+    onEntityModelSelected = func;
+}
+
+void Simulation::setOnEntityModelDeselected(std::function<void(EntityModel*)> func)
+{
+    onEntityModelDeselected = func;
+}
+
+void Simulation::setOnSimulationRenderTick(std::function<void(EntityModel*)> func)
+{
+    onSimulationRenderTick = func;
 }

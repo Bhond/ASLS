@@ -5,8 +5,9 @@
 #include <qcheckbox.h>
 
 #include "simulation.h"
-#include "../graphics/labelvaluepair.h"
 #include "misc.h"
+#include "../graphics/labelvaluepair.h"
+#include "../graphics/labelprogressbarpair.h"
 
 struct Pix
 {
@@ -23,16 +24,15 @@ private:
 	const float Width = 1800;
 	const float Height = 1500;
 
-
-	Simulation* simulation = nullptr;
-	QPushButton* playButton = nullptr;
-	QPushButton* pauseButton = nullptr;
-	QPushButton* resetButton = nullptr;
-	LabelValuePair* scaleWidthField = nullptr;
-	LabelValuePair* scaleHeightField = nullptr;
-	LabelValuePair* gField = nullptr;
-	QCheckBox* overlayBox = nullptr;
-
+	Simulation* simulation{ nullptr };
+	QPushButton* playButton{ nullptr };
+	QPushButton* pauseButton{ nullptr };
+	QPushButton* resetButton{ nullptr };
+	LabelValuePair* scaleWidthField{ nullptr };
+	LabelValuePair* scaleHeightField{ nullptr };
+	QCheckBox* overlayBox{ nullptr };
+	LabelProgressbarPair* healthBar{ nullptr };
+	LabelProgressbarPair* hungerBar{ nullptr };
 
 public:
 	VC();

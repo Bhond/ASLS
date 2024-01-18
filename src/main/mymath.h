@@ -82,7 +82,7 @@ public:
 	Vector2 unit()
 	{
 		double d = length();
-		if (abs(d) < Epsilon)
+		if (fabs(d) < Epsilon)
 			return Vector2{ .0, .0 };
 		else
 			return Vector2 { x / d, y / d };
