@@ -29,6 +29,10 @@ public:
 
 public:
 	void drawGenome();
+	void drawNode(double x, double y, Genome::Node* tmp);
+	bool checkIncrement(Genome::Node* tmp);
+	void updateCoordinates(double& x, double xStep, Genome::Node* tmp, double& y, double yStepOutputs, double yStepInputs);
+	void drawConnections(Genome::Node* tmp);
 	void onInit() override;
 	void reset() override;
 

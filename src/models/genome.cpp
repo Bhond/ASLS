@@ -253,13 +253,13 @@ void Genome::addNode(Node* node)
 
 void Genome::addNodeMutation()
 {
-	// Create node
-	Node* node = new Node("", NodeTypes::Hidden, SquashTypes::Identity);
-	addHiddenNode(node);
-
 	// Select a connection
 	if (connections.size() > 0)
 	{
+		// Create node
+		Node* node = new Node("", NodeTypes::Hidden, SquashTypes::Identity);
+		addHiddenNode(node);
+
 		std::uniform_int_distribution<int> d0(0, connections.size() - 1);
 		Connection* connection = connections[d0(*generator)];
 		// Get the gater
