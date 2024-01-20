@@ -20,7 +20,7 @@ void Entity::buildGeometry()
 	foodSearchRegion->setFillColor(sf::Color::Green);
 
 	shapes.push_back(shape);
-	shapes.push_back(foodSearchRegion);
+	//shapes.push_back(foodSearchRegion);
 }
 
 void Entity::updateGeometryPosition(sf::RenderWindow* w)

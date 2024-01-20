@@ -14,7 +14,7 @@ public:
 
 private:
 	std::default_random_engine* generator{ nullptr };
-	double healthdecay{ 0.5 };
+	double healthdecay{ 0.0 };
 	double hungerdecay{ 0.1 };
 	double hungerThreshold{ 0.8 };
 	double horniness{ 0.0 };

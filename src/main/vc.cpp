@@ -8,6 +8,7 @@ VC::VC()
 VC::~VC()
 {
 	delete simulation;
+	delete simulationFrame;
 	delete playButton;
 	delete pauseButton;
 	delete resetButton;
@@ -16,6 +17,9 @@ VC::~VC()
 	delete overlayBox;
 	delete healthBar;
 	delete hungerBar;
+	delete tabWidget;
+	delete brain;
+	delete brainFrame;
 }
 
 void VC::onInit()
@@ -31,13 +35,21 @@ void VC::onInit()
 	float controlContainerWidth = Width / 4;
 	float controlContainerHeight = Height - 2 * anchorY;
 
-	// Simulation
+	// Position
 	float posX = anchorX + controlContainerWidth + margin;
 	float posY = anchorY;
 	float simWidth = Width - posX - anchorX;
 	float simHeight = controlContainerHeight;
 
-	simulation = new Simulation(this, QPoint(posX, posY), QSize(simWidth, simHeight), 1);
+	// Tab
+	tabWidget = new QTabWidget(this);
+	tabWidget->move(QPoint(posX, posY));
+	tabWidget->resize(QSize(simWidth, simHeight));
+
+	// Simulation
+	simulationFrame = new QFrame();
+	simulationFrame->resize(QSize(simWidth, simHeight));
+	simulation = new Simulation(simulationFrame, QPoint(0, 0), QSize(simWidth, simHeight), 1);
 	simulation->show();
 
 	// Controls
@@ -48,13 +60,11 @@ void VC::onInit()
 	playButton = new QPushButton("Play", this);
 	float playButtonX = controlsX - playButton->size().width() * 0.5;
 	playButton->move(QPoint(playButtonX, controlsY));
-	connect(playButton, SIGNAL(clicked()), simulation, SLOT(play()));
 
 	pauseButton = new QPushButton("Pause", this);
 	float pauseButtonX = controlsX - pauseButton->size().width() * 0.5;
 	controlsY += controlsStep + playButton->size().height();
 	pauseButton->move(QPoint(pauseButtonX, controlsY));
-	connect(pauseButton, SIGNAL(clicked()), simulation, SLOT(pause()));
 
 	/*resetButton = new QPushButton("Reset", this);
 	float resetButtonX = controlsX - resetButton->size().width() * 0.5;
@@ -101,12 +111,14 @@ void VC::onInit()
 				hungerBar->setProgress(m->hunger * 100);
 				healthBar->show();
 				hungerBar->show();
+				brain->setSelectedGenome(m->genome);
 			}
 		});
 	simulation->setOnEntityModelDeselected([this](EntityModel* m)
 		{
 				healthBar->hide();
 				hungerBar->hide();
+				brain->setSelectedGenome(nullptr);
 		});
 	simulation->setOnSimulationRenderTick([this](EntityModel* m)
 		{
@@ -114,10 +126,32 @@ void VC::onInit()
 			{
 				healthBar->setProgress(m->health * 100);
 				hungerBar->setProgress(m->hunger * 100);
+
+				brain->drawGenome();
 			}
 		});
 
+	// Stats
+	stats = new Stats(this);
+	stats->onInit();
 
+	// Brain
+	brainFrame = new QFrame();
+	brainFrame->resize(QSize(simWidth, simHeight));
+	brain = new Brain(brainFrame, QPoint(0, 0), QSize(simWidth, simHeight), 1);
+	brain->show();
+	//brain->onInit();
+
+	// Add widgets to tab
+	tabWidget->addTab(simulationFrame, "Simulation");
+	tabWidget->addTab(stats, "Stats");
+	tabWidget->addTab(brainFrame, "Brain");
+
+	// Connect the buttons
+	connect(playButton, SIGNAL(clicked()), simulation, SLOT(play()));
+	connect(playButton, SIGNAL(clicked()), brain, SLOT(play()));
+	connect(pauseButton, SIGNAL(clicked()), simulation, SLOT(pause()));
+	connect(pauseButton, SIGNAL(clicked()), brain, SLOT(pause()));
 }
 
 void VC::display()

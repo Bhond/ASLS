@@ -34,9 +34,8 @@ QPlainTextEdit {
 QPushButton {
     background-color: #0078d4;
     border: 1px solid #0078d4;
-    border-radius: 3px;
+    border-radius: 0px;
     color: #ffffff;
-    padding: 5px 10px;
 }
 
 QPushButton:hover {
@@ -256,7 +255,6 @@ QTabBar::tab {
 }
 
 QTabBar::tab:selected {
-    font-weight: bold;
     background-color: #0078d4;
 }
 

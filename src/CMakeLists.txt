@@ -51,7 +51,11 @@ add_executable(${PROJECT_NAME}
 "main/stats.h"
 "main/stats.cpp"
 "graphics/labelprogressbarpair.h"
-"graphics/labelprogressbarpair.cpp" "models/model.h" "models/model.cpp")
+"graphics/labelprogressbarpair.cpp"
+"models/model.h"
+"models/model.cpp"
+"graphics/chartWidget.h"
+"graphics/chartWidget.cpp" "main/brain.h" "main/brain.cpp")
 
 # Links
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-system sfml-network sfml-graphics sfml-window)

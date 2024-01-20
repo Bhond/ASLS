@@ -93,12 +93,12 @@ public:
 	Config config{};
 	Node* root{ nullptr };
 	std::vector<Connection*> connections;
+	int inputSize{ 0 };
+	int outputSize{ 0 };
 
 private:
 	std::default_random_engine* generator{ nullptr };
 	int size{ 0 };
-	int inputSize{ 0 };
-	int outputSize{ 0 };
 
 public:
 	Genome();

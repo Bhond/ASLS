@@ -15,7 +15,7 @@ void Solver::solve(double dt)
 {
     // Add entity
     std::uniform_int_distribution<int> d(0, 200);
-    if (d(*generator) == 0)
+    if (d(*generator) == 0 && entities.size() < 2)
     {
         addEntity();
     }
