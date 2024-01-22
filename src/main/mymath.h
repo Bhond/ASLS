@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <math.h>
 
 const double Epsilon = 1e-7;
@@ -92,6 +93,14 @@ public:
 	static double dot(const Vector2& u, const Vector2& v)
 	{
 		return u.x * v.x + u.y * v.y;
+	}
+
+	static Vector2 rotate(const Vector2& u, const double& angle_rad)
+	{
+		return Vector2(
+			u.x * cos(angle_rad) - u.y * sin(angle_rad),
+			u.x * sin(angle_rad) + u.y * cos(angle_rad)		
+		);
 	}
 
 };

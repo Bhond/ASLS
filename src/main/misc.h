@@ -1,7 +1,12 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include <vector>
+
+/// 
+/// COLORS
+/// 
 
 struct Color
 {
@@ -12,6 +17,7 @@ struct Color
 };
 
 static const std::vector<Color> Colors = {
+    {255, 255,0} ,
     {63,12,12},
     {132,24,28},
     {177,48,38},
@@ -21,7 +27,8 @@ static const std::vector<Color> Colors = {
     {100,151,177},
     {0,91,150},
     {3,57,108},
-    {1,31,75}
+    {1,31,75},
+    {255,0,0}
 };
 
 static Color colorLerp(const Color& col0, const Color& col1, const double& c)
@@ -48,3 +55,38 @@ static Color linearGradient(const double& c)
     else
         return Color();
 }
+
+/// 
+/// Conf
+/// 
+static const std::string confInputs = "inputs";
+static const std::string confOutputs = "outputs";
+static const std::string confName = "name";
+static const std::string confMean = "mean";
+static const std::string confStd = "std";
+static const std::string confSquash = "squash";
+
+/// 
+/// Inputs
+/// 
+static const std::string inHealth = "Health";
+static const std::string inHunger = "Hunger";
+static const std::string inFoodPositionX = "FoodPositionX";
+static const std::string inFoodPositionY = "FoodPositionY";
+static const std::string inHorniness = "Horniness";
+static const std::string inSize = "Size";
+static const std::string inEyeSightRadius = "EyeSightRadius";
+static const std::string inEyeSightAngle = "EyeSightAngle";
+static const std::string inSpeed = "Speed";
+static const std::string inNMutation = "NMutation";
+static const std::string inPMutation = "PMutation";
+static const std::string inColorR = "ColorR";
+static const std::string inColorG = "ColorG";
+static const std::string inColorB = "ColorB";
+
+/// 
+/// Outputs
+/// 
+static const std::string outTurnAngle = "TurnAngle";
+static const std::string outPositionIncrement = "PositionIncrement";
+static const std::string outLayEgg = "LayEgg";

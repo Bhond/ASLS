@@ -14,6 +14,7 @@ Simulation::~Simulation()
 {
     delete solver;
     delete entitiesGroupControl;
+    delete foodsGroupControl;
     delete genome;
     selectedModel = nullptr; // Destroyed elsewhere
 }
@@ -28,6 +29,7 @@ void Simulation::onInit()
     Background.setFillColor(BackgroundColor);
 
     entitiesGroupControl = new Entities(this);
+    foodsGroupControl = new Foods(this);
 
     solver = new Solver(this);
     solver->setOnEntityModelCreated([this](EntityModel* m) {
@@ -43,6 +45,13 @@ void Simulation::onInit()
             selectedModel = nullptr;
         }
         });
+    solver->setOnFoodModelCreated([this](FoodModel* m) {
+        if (m)
+        {
+            foodsGroupControl->buildControl(m);
+        }
+        });
+    solver->setOnFoodModelDeleted([this](FoodModel* m) {});
 }
 
 void Simulation::onScroll(const double& amt)
@@ -69,10 +78,14 @@ void Simulation::mousePressEvent(QMouseEvent* event)
 
     // Do stuff
     if (selectedModel)
+    {
         onEntityModelSelected(selectedModel);
+    }
     else
+    {
         onEntityModelDeselected(selectedModel);
-
+        solver->addFood(event->localPos().x() - width()/2.0, event->localPos().y() - height()/2.0);
+    }
 }
 
 void Simulation::onUpdate()
@@ -99,6 +112,7 @@ void Simulation::render()
 
     // Draw controls
     entitiesGroupControl->draw();
+    foodsGroupControl->draw();
     onSimulationRenderTick(selectedModel);
 }
 

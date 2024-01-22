@@ -78,7 +78,6 @@ void VC::onInit()
 	controlsY += controlsStep + pauseButton->size().height();
 	healthBar->move(QPoint(healthBarX, controlsY));
 	healthBar->hide();
-	//connect(resetButton, SIGNAL(clicked()), simulation, SLOT(reset()));
 
 	hungerBar = new LabelProgressbarPair("Hunger", 0, this);
 	hungerBar->resize(QSize(std::min(controlContainerHeight - 2 * margin, 300.0f), 70.0));
@@ -86,7 +85,13 @@ void VC::onInit()
 	controlsY += controlsStep + healthBar->size().height();
 	hungerBar->move(QPoint(hungerBarX, controlsY));
 	hungerBar->hide();
-	//connect(resetButton, SIGNAL(clicked()), simulation, SLOT(reset()));
+
+	horninessBar = new LabelProgressbarPair("Horniness", 0, this);
+	horninessBar->resize(QSize(std::min(controlContainerHeight - 2 * margin, 300.0f), 70.0));
+	float horninessBarX = controlsX - horninessBar->size().width() * 0.5;
+	controlsY += controlsStep + hungerBar->size().height();
+	horninessBar->move(QPoint(hungerBarX, controlsY));
+	horninessBar->hide();
 
 	/*scaleWidthField = new LabelValuePair("Scale width", 1.0, this);
 	scaleWidthField->resize(QSize(std::min(controlContainerWidth - 2 * margin, 300.0f), 70.0));
@@ -109,8 +114,10 @@ void VC::onInit()
 			{
 				healthBar->setProgress(m->health * 100);
 				hungerBar->setProgress(m->hunger * 100);
+				horninessBar->setProgress(m->horniness * 100);
 				healthBar->show();
 				hungerBar->show();
+				horninessBar->show();
 				brain->setSelectedGenome(m->genome);
 			}
 		});
@@ -118,6 +125,7 @@ void VC::onInit()
 		{
 				healthBar->hide();
 				hungerBar->hide();
+				horninessBar->hide();
 				brain->setSelectedGenome(nullptr);
 		});
 	simulation->setOnSimulationRenderTick([this](EntityModel* m)
@@ -126,7 +134,7 @@ void VC::onInit()
 			{
 				healthBar->setProgress(m->health * 100);
 				hungerBar->setProgress(m->hunger * 100);
-
+				horninessBar->setProgress(m->horniness * 100);
 				brain->drawGenome();
 			}
 		});
@@ -140,7 +148,6 @@ void VC::onInit()
 	brainFrame->resize(QSize(simWidth, simHeight));
 	brain = new Brain(brainFrame, QPoint(0, 0), QSize(simWidth, simHeight), 1);
 	brain->show();
-	//brain->onInit();
 
 	// Add widgets to tab
 	tabWidget->addTab(simulationFrame, "Simulation");

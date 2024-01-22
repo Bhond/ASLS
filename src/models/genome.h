@@ -3,12 +3,24 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <map>
+
+#include "../main/configreader.h"
 
 class Genome
 {
 public:
 	enum NodeTypes{ Input, Hidden, Output};
-	enum SquashTypes{ Identity, Inverse, Sinusoide, Tanh, Logistic };
+	enum SquashTypes{ Identity, Inverse, Sinusoide, Tanh, Sigmoid, Logistic};
+	std::map<std::string, SquashTypes> SquashTypesFromString{
+		{ "Identity", SquashTypes::Identity },
+		{ "Inverse", SquashTypes::Inverse },
+		{ "Sinusoide", SquashTypes::Sinusoide},
+		{ "Tanh", SquashTypes::Tanh }, 
+		{ "Sigmoid", SquashTypes::Sigmoid },
+		{ "Logistic", SquashTypes::Logistic }
+	};
+
 
 	struct Config
 	{
@@ -68,13 +80,24 @@ public:
 		std::default_random_engine* generator{ nullptr };
 
 	public:
+		Node(const std::string& n, NodeTypes t)
+			: name(n), type(t)
+		{
+			squash = static_cast<SquashTypes>(std::rand() % SquashTypes::Logistic + 1);
+		}
+
+		Node(const std::string& n, NodeTypes t, const double& mean, const double& standardDeviation)
+			: name(n), type(t)
+		{
+			generator = new std::default_random_engine();
+			std::normal_distribution<double> d0(mean, standardDeviation);
+			bias = d0(*generator);
+			squash = static_cast<SquashTypes>(std::rand() % SquashTypes::Logistic + 1);
+		}
+
 		Node(const std::string& n, NodeTypes t, SquashTypes s)
 			: name(n), type(t), squash(s)
 		{
-			generator = new std::default_random_engine();
-			std::normal_distribution<double> d0(0.0, 1.0);
-			bias = d0(*generator);
-			squash = static_cast<SquashTypes>(std::rand() % SquashTypes::Logistic + 1);
 		}
 
 		Node(const Node& other) = default;
@@ -108,6 +131,8 @@ public:
 public:
 	void update();
 	void addNode(const std::string& name, NodeTypes type, SquashTypes squash);
+	void addNode(const std::string& name, NodeTypes type, const double& mean, const double& standardDeviation);
+	void addNode(const std::string& name, NodeTypes type);
 
 private:
 	void activate();

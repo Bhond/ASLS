@@ -35,6 +35,7 @@ private:
 	QCheckBox* overlayBox{ nullptr };
 	LabelProgressbarPair* healthBar{ nullptr };
 	LabelProgressbarPair* hungerBar{ nullptr };
+	LabelProgressbarPair* horninessBar{ nullptr };
 
 public:
 	VC();

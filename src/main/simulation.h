@@ -14,6 +14,7 @@
 #include "../models/solver.h"
 #include "../models/genome.h"
 #include "../graphics/entities.h"
+#include "../graphics/foods.h"
 
 class Simulation : public QSFMLCanvas
 {
@@ -31,6 +32,7 @@ private:
 	double zoomFactor { 1 };
 	Genome* genome{ nullptr };
 	Entities* entitiesGroupControl{ nullptr };
+	Foods* foodsGroupControl{ nullptr };
 	EntityModel* selectedModel{ nullptr };
 
 private:

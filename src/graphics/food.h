@@ -3,18 +3,17 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "control.h"
-#include "../models/entitymodel.h"
+#include "../models/foodmodel.h"
 
-class Entity : public Control<EntityModel>
+class Food : public Control<FoodModel>
 {
 private:
-	sf::ConvexShape* shape{ nullptr };
-	sf::ConvexShape* eyeSightRegion{ nullptr };
+	sf::CircleShape* shape{ nullptr };
 
 public:
-	Entity() = delete;
-	Entity(EntityModel* m);
-	~Entity();
+	Food() = delete;
+	Food(FoodModel* m);
+	~Food();
 
 public:
 	void buildGeometry() override;

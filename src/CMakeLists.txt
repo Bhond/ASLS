@@ -3,8 +3,7 @@ cmake_minimum_required(VERSION 3.26)
 
 # Variables
 set(PATH_ROOT ${CMAKE_SOURCE_DIR})
-set(PATH_SHADERS "${CMAKE_SOURCE_DIR}/assets/shaders")
-set(PATH_SCRIPTS "${CMAKE_SOURCE_DIR}/scripts")
+set(PATH_RESOURCES "${CMAKE_SOURCE_DIR}/res")
 configure_file("main/common.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/main/common.h" @ONLY)
 
 # Qt
@@ -18,6 +17,12 @@ endif()
 find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 if (${SFML_Found})
 	message("Found SFML")
+endif()
+
+# Boost
+find_package(Boost)
+if (${Boost_FOUND})
+	message("Found Boost")
 endif()
 
 # Exec
@@ -55,8 +60,10 @@ add_executable(${PROJECT_NAME}
 "models/model.h"
 "models/model.cpp"
 "graphics/chartWidget.h"
-"graphics/chartWidget.cpp" "main/brain.h" "main/brain.cpp")
+"graphics/chartWidget.cpp" "main/brain.h" "main/brain.cpp" "main/configreader.h" "main/configreader.cpp" "models/foodmodel.h" "models/foodmodel.cpp" "graphics/foods.cpp" "graphics/foods.h" "graphics/food.cpp" "graphics/food.h")
 
 # Links
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-system sfml-network sfml-graphics sfml-window)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets)
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR} )
+target_link_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR} )

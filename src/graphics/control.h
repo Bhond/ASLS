@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "../main/mymath.h"
 
 template <typename modelT>
 class Control
@@ -32,6 +33,9 @@ public:
 	bool isSelected();
 	bool isHit(const int& x, const int& y);
 	modelT* getModel();
+	Vector2 decode(const Vector2& v);
+	sf::Vector2f toVector2f(const Vector2& v);
+
 
 public:
 	void setSelected(bool b);
@@ -113,4 +117,16 @@ template <typename modelT>
 modelT* Control<modelT>::getModel()
 {
 	return model;
+}
+
+template<typename modelT>
+Vector2 Control<modelT>::decode(const Vector2& v)
+{
+	return Vector2(v.x, -v.y);
+}
+
+template<typename modelT>
+sf::Vector2f Control<modelT>::toVector2f(const Vector2& v)
+{
+	return sf::Vector2f((float)v.x, (float)v.y);
 }

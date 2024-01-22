@@ -3,6 +3,18 @@
 Genome::Genome()
 {
 	generator = new std::default_random_engine();
+
+	// Create genome
+	ConfigReader cr;
+	cr.parseGenomeConfig();
+	for (int i = 0; i < cr.inputs.size(); i++)
+	{
+		addNode(cr.inputs[i].name, NodeTypes::Input, cr.inputs[i].mean, cr.inputs[i].standardDeviation);
+	}
+	for (int i = 0; i < cr.outputs.size(); i++)
+	{
+		addNode(cr.outputs[i].name, NodeTypes::Output, SquashTypesFromString[cr.outputs[i].squash]);
+	}
 }
 
 Genome::Genome(const Genome& other)
@@ -223,6 +235,18 @@ void Genome::nodeSquashMutation()
 void Genome::addNode(const std::string& name, NodeTypes type, SquashTypes squash)
 {
 	Node* n = new Node(name, type, squash);
+	addNode(n);
+}
+
+void Genome::addNode(const std::string& name, NodeTypes type, const double& mean, const double& standardDeviation)
+{
+	Node* n = new Node(name, type, mean, standardDeviation);
+	addNode(n);
+}
+
+void Genome::addNode(const std::string& name, NodeTypes type)
+{
+	Node* n = new Node(name, type);
 	addNode(n);
 }
 
