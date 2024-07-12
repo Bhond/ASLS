@@ -1,6 +1,37 @@
 {
-  "confuguration": {
-    
+  "configuration": {
+    "genomeMutations": [
+      {
+        "name": "addNode",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "removeNode",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "addConnection",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "removeConnection",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "weight",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "gater",
+        "mean": 0.0,
+        "std": 1.0
+      }
+    ]
   },
   "inputs": [
     {

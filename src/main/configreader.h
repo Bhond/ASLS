@@ -10,6 +10,14 @@
 
 class ConfigReader
 {
+	struct Mutation
+	{
+	public:
+		std::string name;
+		double mean;
+		double standardDeviation;
+	};
+
 	struct Input
 	{
 	public:
@@ -26,6 +34,7 @@ class ConfigReader
 	};
 
 public:
+	std::vector<Mutation> mutations;
 	std::vector<Input> inputs;
 	std::vector<Output> outputs;
 
@@ -34,6 +43,7 @@ public:
 
 public:
 	void parseGenomeConfig();
+	void readMutations(const std::string& path);
 	void readInputs(const std::string& path);
 	void readOuputs(const std::string& path);
 

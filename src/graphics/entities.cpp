@@ -1,7 +1,7 @@
 #include "entities.h"
 
-Entities::Entities(sf::RenderWindow* w)
-	: GroupControl(w)
+Entities::Entities()
+	: GroupControl()
 {
 }
 
@@ -10,8 +10,8 @@ Entities::~Entities()
 	GroupControl::~GroupControl();
 }
 
-void Entities::buildControl(EntityModel* model)
+void Entities::buildControl(std::shared_ptr<EntityModel> model)
 {
-	GroupControl::buildControl(new Entity(model));
+	GroupControl::buildControl(std::make_shared<Entity>(model));
 }
 

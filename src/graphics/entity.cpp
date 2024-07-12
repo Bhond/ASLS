@@ -1,20 +1,19 @@
 #include "entity.h"
 
-Entity::Entity(EntityModel* m)
+Entity::Entity(std::shared_ptr<EntityModel> m)
 	: Control(m)
 {
 }
 
 Entity::~Entity()
 {
-	Entity::~Entity();
+	Control::~Control();
 	delete shape;
 }
 
 void Entity::buildGeometry()
 {
 	shape = new sf::ConvexShape(3);
-	shape->setFillColor(sf::Color::Cyan);
 
 	eyeSightRegion = new sf::ConvexShape(3);
 	eyeSightRegion->setFillColor(sf::Color::Green);
@@ -22,13 +21,16 @@ void Entity::buildGeometry()
 	shapes.push_back(shape);
 }
 
-void Entity::updateGeometryPosition(sf::RenderWindow* w)
+void Entity::updateGeometryPosition(std::shared_ptr<sf::RenderWindow> w)
 {
+	// Color may change
+	shape->setFillColor(sf::Color(model->r * 255, model->g * 255, model->b * 255, 255));
+
 	sf::Vector2f position = toVector2f(model->position);
 	position += sf::Vector2f(w->getView().getSize().x / 2.0, w->getView().getSize().y / 2.0);
 
 	sf::Vector2f tangent = toVector2f(model->direction);
-	Vector2 n = Vector2::rotate(model->direction, std::_Pi / 2.0);
+	Vector2 n = Vector2::rotate(model->direction, std::_Pi_val / 2.0);
 	sf::Vector2f normal = sf::Vector2f((float)n.x, (float)n.y);
 
 	// Main shape
@@ -49,16 +51,14 @@ void Entity::updateGeometryPosition(sf::RenderWindow* w)
 	eyeSightRegion->setPoint(0, p3);
 	eyeSightRegion->setPoint(1, p4);
 	eyeSightRegion->setPoint(2, p5);
-
-
 }
 
-void Entity::draw(sf::RenderWindow* w)
+void Entity::draw(std::shared_ptr<sf::RenderWindow> w)
 {
 	w->draw(*shape);
 }
 
-void Entity::onSelected(sf::RenderWindow* w)
+void Entity::onSelected(std::shared_ptr<sf::RenderWindow> w)
 {
 	if (selected)
 	{

@@ -9,6 +9,26 @@ void ConfigReader::parseGenomeConfig()
 
 }
 
+void ConfigReader::readMutations(const std::string& path)
+{
+    std::ifstream is(path, std::ifstream::binary);
+    if (is)
+    {
+        boost::json::value jv = boost::json::parse(is);
+        boost::json::object conf = jv.at(confConfiguration).as_object();
+        boost::json::array arr = conf.at(confGenomeMutations).as_array();
+        for (boost::json::value v : arr)
+        {
+            boost::json::object o = v.as_object();
+            Mutation m;
+            m.name = o.at(confName).as_string().c_str();
+            m.mean = o.at(confMean).as_double();
+            m.standardDeviation = o.at(confStd).as_double();
+            mutations.push_back(m);
+        }
+    }
+}
+
 void ConfigReader::readInputs(const std::string& path)
 {
     std::ifstream is(path, std::ifstream::binary);

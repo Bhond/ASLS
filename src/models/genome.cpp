@@ -69,7 +69,7 @@ Genome::~Genome()
 void Genome::update()
 {
 	// Generate mutations -> For now, add or remove node/connection, should be between generations
-	std::uniform_int_distribution<int> d0(0, config.dropout);
+	/*std::uniform_int_distribution<int> d0(0, config.dropout);
 	if (d0(*generator) == 0)
 	{
 		addNodeMutation();
@@ -109,7 +109,7 @@ void Genome::update()
 	if (d6(*generator) == 0)
 	{
 		nodeSquashMutation();
-	}
+	}*/
 
 	// Activate
 	activate();

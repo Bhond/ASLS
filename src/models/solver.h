@@ -21,14 +21,14 @@ private:
 	std::function<void(FoodModel*)> onFoodModelDeleted;
 
 public:
-	Solver(sf::RenderWindow* w);
+	Solver();
 	~Solver();
 
 public:
 	void addEntity();
 	void addFood();
 	void addFood(const double& x, const double& y);
-	void solve(double dt);
+	void solve(const double& dt);
 	Vector2 foodFinder(Vector2& position, Vector2& direction, double& radius, double& angle);
 
 public:

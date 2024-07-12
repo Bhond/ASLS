@@ -4,14 +4,10 @@
 #include <vector>
 
 #include "SFML/Graphics.hpp"
-
-#include <qwidget.h>
-
-#include "../graphics/qsfmlcanvas.h"
 #include "../main/misc.h"
 #include "../models/genome.h"
 
-class Brain : public QSFMLCanvas
+class Brain
 {
 
 private:
@@ -23,8 +19,7 @@ private:
 	Genome* selectedGenome{ nullptr };
 
 public:
-	Brain(QWidget* parent, unsigned int frameTime = 0);
-	Brain(QWidget* parent, const QPoint& position, const QSize& size, unsigned int frameTime = 0);
+	Brain( unsigned int frameTime = 0);
 	~Brain();
 
 public:
@@ -33,18 +28,16 @@ public:
 	bool checkIncrement(Genome::Node* tmp);
 	void updateCoordinates(double& x, double xStep, Genome::Node* tmp, double& y, double yStepOutputs, double yStepInputs);
 	void drawConnections(Genome::Node* tmp);
-	void onInit() override;
-	void reset() override;
+	void onInit();
+	void reset();
 
 protected:
-	void onUpdate() override;
+	void onUpdate();
 
 private:
 	int computeNHiddenLayers();
 
 public:
 	void setSelectedGenome(Genome* genome);
-
-public slots:
 	void render();
 };

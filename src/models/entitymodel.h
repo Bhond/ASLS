@@ -19,6 +19,9 @@ public:
 	double eyeSightAngle{ 20.0 };
 	Vector2 direction{ 1.0 , 0.0 };
 	double size{ 10.0 };
+	double r{ 1.0 };
+	double g{ 1.0 };
+	double b{ 1.0 };
 
 private:
 	std::default_random_engine* generator{ nullptr };

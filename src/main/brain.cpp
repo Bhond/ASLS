@@ -1,23 +1,17 @@
 #include "brain.h"
 
-Brain::Brain(QWidget* parent, unsigned int frameTime)
-    : QSFMLCanvas(parent, frameTime)
-{
-}
-
-Brain::Brain(QWidget* parent, const QPoint& position, const QSize& size, unsigned int frameTime)
-    : QSFMLCanvas(parent, position, size, frameTime)
+Brain::Brain(unsigned int frameTime)
 {
 }
 
 Brain::~Brain()
 {
-	selectedGenome; // Deleted elsewhere
+    selectedGenome = nullptr; // Deleted elsewhere
 }
 
 void Brain::drawGenome()
 {
-    if (selectedGenome)
+    /*if (selectedGenome)
     {
         Genome::Node* tmp = selectedGenome->root;
         int nHiddenLayers = computeNHiddenLayers();
@@ -59,23 +53,23 @@ void Brain::drawGenome()
 
             tmp = tmp->next;
         }
-    }
+    }*/
 }
 
 void Brain::drawNode(double x, double y, Genome::Node* tmp)
 {
-    sf::CircleShape c { (float)nodeRadius };
+ /*   sf::CircleShape c { (float)nodeRadius };
     c.move(x, y);
 
     double coef0 = std::abs(std::abs(tmp->activation) - 2.0) / 2.0;
     Color color0 = colorLerp(Colors[0], Colors[Colors.size() - 1], coef0);
     c.setFillColor(sf::Color(color0.r, color0.g, color0.b));
-    draw(c);
+    draw(c);*/
 }
 
 bool Brain::checkIncrement(Genome::Node* tmp)
 {
-    if (tmp->next && tmp->next->type == Genome::NodeTypes::Hidden)
+   /* if (tmp->next && tmp->next->type == Genome::NodeTypes::Hidden)
     {
         for (Genome::Connection* c : tmp->incomingConnections)
         {
@@ -85,12 +79,13 @@ bool Brain::checkIncrement(Genome::Node* tmp)
             }
         }
     }
+    return false;*/
     return false;
 }
 
 void Brain::updateCoordinates(double& x, double xStep, Genome::Node* tmp, double& y, double yStepOutputs, double yStepInputs)
 {
-    x += xStep;
+   /* x += xStep;
     if (tmp->next->type == Genome::NodeTypes::Output)
     {
         y = (height() / 2.0) - (selectedGenome->outputSize / 2) * yStepOutputs;
@@ -112,12 +107,12 @@ void Brain::updateCoordinates(double& x, double xStep, Genome::Node* tmp, double
         {
             y = (height() / 2.0) - (selectedGenome->inputSize / 2) * yStepInputs;
         }
-    }
+    }*/
 }
 
 void Brain::drawConnections(Genome::Node* tmp)
 {
-    for (Genome::Connection* connection : tmp->incomingConnections)
+    /*for (Genome::Connection* connection : tmp->incomingConnections)
     {
         sf::Vertex line[] =
         {
@@ -128,15 +123,15 @@ void Brain::drawConnections(Genome::Node* tmp)
         Color color1 = colorLerp(Colors[0], Colors[Colors.size() - 1], coef1);
         line->color = sf::Color(color1.r, color1.g, color1.b);
         draw(line, 2, sf::Lines);
-    }
+    }*/
 }
 
 void Brain::onInit()
 {
-    // Background
-    sf::Vector2<float> size(width(), height());
-    Background = sf::RectangleShape(size);
-    Background.setFillColor(BackgroundColor);
+    //// Background
+    //sf::Vector2<float> size(width(), height());
+    //Background = sf::RectangleShape(size);
+    //Background.setFillColor(BackgroundColor);
 }
 
 void Brain::reset()
@@ -145,15 +140,15 @@ void Brain::reset()
 
 void Brain::onUpdate()
 {
-    if (playing)
+    /*if (playing)
     {
     }
-    render();
+    render();*/
 }
 
 int Brain::computeNHiddenLayers()
 {
-    int result{ 0 };
+   /* int result{ 0 };
     int nNode{ 0 };
 
     Genome::Node* tmp = selectedGenome->root;
@@ -174,20 +169,21 @@ int Brain::computeNHiddenLayers()
         nNode++;
         tmp = tmp->next;
     }
-    return result;
+    return result;*/
+    return 0;
 }
 
 void Brain::render()
 {
-    // Clear canvas
-    clear();
+    //// Clear canvas
+    //clear();
 
-    // Draw background
-    draw(Background);
-    drawGenome();
+    //// Draw background
+    //draw(Background);
+    //drawGenome();
 }
 
 void Brain::setSelectedGenome(Genome* genome)
 {
-	selectedGenome = genome;
+	//`selectedGenome = genome;
 }

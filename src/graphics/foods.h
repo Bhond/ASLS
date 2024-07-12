@@ -7,9 +7,9 @@
 class Foods : public GroupControl<FoodModel>
 {
 public:
-	Foods(sf::RenderWindow* w);
+	Foods();
 	~Foods();
 
 public:
-	void buildControl(FoodModel* model) override;
+	void buildControl(std::shared_ptr<FoodModel> model) override;
 };

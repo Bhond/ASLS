@@ -9,8 +9,6 @@ EntityModel::~EntityModel()
 {
     delete generator;
 	delete genome;
-    generator = nullptr;
-    genome = nullptr;
 }
 
 void EntityModel::initGenome()
@@ -50,6 +48,7 @@ void EntityModel::performAction(double dt)
         {
             if (horniness > 0.90)
             {
+                // Lay egg & change genome
                 horniness = 0.0;
             }
         }
@@ -67,7 +66,6 @@ void EntityModel::updateStats(double dt)
         health -= healthdecay * dt;
         health = std::min(std::max(health, 0.0), 1.0);
     }
-    
     horniness += horninessdecay * dt;
 }
 
@@ -118,15 +116,15 @@ void EntityModel::updateInputs()
         }
         else if (node->name == inColorR)
         {
-            node->state = 0;
+            node->state = r;
         }
         else if (node->name == inColorG)
         {
-            node->state = 0;
+            node->state = g;
         }
         else if (node->name == inColorB)
         {
-            node->state = 0;
+            node->state = b;
         }
         node = node->next;
     }

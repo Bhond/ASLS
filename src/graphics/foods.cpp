@@ -1,7 +1,7 @@
 #include "Foods.h"
 
-Foods::Foods(sf::RenderWindow* w)
-	: GroupControl(w)
+Foods::Foods()
+	: GroupControl()
 {
 }
 
@@ -10,8 +10,8 @@ Foods::~Foods()
 	GroupControl::~GroupControl();
 }
 
-void Foods::buildControl(FoodModel* model)
+void Foods::buildControl(std::shared_ptr<FoodModel> model)
 {
-	GroupControl::buildControl(new Food(model));
+	GroupControl::buildControl(std::make_shared<Food>(model));
 }
 

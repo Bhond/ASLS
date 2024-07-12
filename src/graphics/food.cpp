@@ -1,13 +1,13 @@
 #include "food.h"
 
-Food::Food(FoodModel* m)
+Food::Food(std::shared_ptr<FoodModel> m)
 	: Control(m)
 {
 }
 
 Food::~Food()
 {
-	Food::~Food();
+	Control::~Control();
 	delete shape;
 }
 
@@ -18,7 +18,7 @@ void Food::buildGeometry()
 	shapes.push_back(shape);
 }
 
-void Food::updateGeometryPosition(sf::RenderWindow* w)
+void Food::updateGeometryPosition(std::shared_ptr<sf::RenderWindow> w)
 {
 	sf::Vector2f position = toVector2f(model->position);
 	position += sf::Vector2f(w->getView().getSize().x / 2.0, w->getView().getSize().y / 2.0);
@@ -27,12 +27,12 @@ void Food::updateGeometryPosition(sf::RenderWindow* w)
 	shape->setPosition(position);
 }
 
-void Food::draw(sf::RenderWindow* w)
+void Food::draw(std::shared_ptr<sf::RenderWindow> w)
 {
 	w->draw(*shape);
 }
 
-void Food::onSelected(sf::RenderWindow* w)
+void Food::onSelected(std::shared_ptr<sf::RenderWindow> w)
 {
 	if (selected)
 	{

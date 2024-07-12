@@ -12,13 +12,13 @@ private:
 
 public:
 	Food() = delete;
-	Food(FoodModel* m);
+	Food(std::shared_ptr<FoodModel> m);
 	~Food();
 
 public:
 	void buildGeometry() override;
-	void updateGeometryPosition(sf::RenderWindow* w) override;
-	void draw(sf::RenderWindow* w) override;
-	void onSelected(sf::RenderWindow* w) override;
+	void updateGeometryPosition(std::shared_ptr<sf::RenderWindow> w) override;
+	void draw(std::shared_ptr<sf::RenderWindow> w) override;
+	void onSelected(std::shared_ptr<sf::RenderWindow> w) override;
 
 };

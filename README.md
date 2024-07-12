@@ -24,5 +24,6 @@ Make sure cmake is installed and that you can compile c++.
 - Using **VCPKG**, you'll need:
 	1. Qt5:x64-windows (very long...)
 	2. SFML:x64-windows
+	3. Boost:x64-windows 
 
 Launch the project, compile it all and you should be good to go.

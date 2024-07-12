@@ -1,6 +1,6 @@
 #include "solver.h"
 
-Solver::Solver(sf::RenderWindow* w)
+Solver::Solver()
 {
     generator = new std::default_random_engine();
 }
@@ -23,7 +23,7 @@ Solver::~Solver()
 }
 
 
-void Solver::solve(double dt)
+void Solver::solve(const double& dt)
 {
     // Add entity
     std::uniform_int_distribution<int> d(0, 200);

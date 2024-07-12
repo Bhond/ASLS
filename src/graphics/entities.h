@@ -7,9 +7,9 @@
 class Entities : public GroupControl<EntityModel>
 {
 public:
-	Entities(sf::RenderWindow* w);
+	Entities();
 	~Entities();
 
 public:
-	void buildControl(EntityModel* model) override;
+	void buildControl(std::shared_ptr<EntityModel> model) override;
 };

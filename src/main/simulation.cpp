@@ -1,139 +1,56 @@
 #include "simulation.h"
 
-Simulation::Simulation(QWidget* parent, unsigned int frameTime)
-    : QSFMLCanvas(parent, frameTime)
+Simulation::Simulation()
 {
-}
-
-Simulation::Simulation(QWidget* parent, const QPoint& position, const QSize& size, unsigned int frameTime)
-    : QSFMLCanvas(parent, position, size, frameTime)
-{
+    // Initialize the simulation
+    onInit();
 }
 
 Simulation::~Simulation()
 {
-    delete solver;
-    delete entitiesGroupControl;
-    delete foodsGroupControl;
-    delete genome;
-    selectedModel = nullptr; // Destroyed elsewhere
 }
 
 void Simulation::onInit()
 {
-    sf::Vector2<float> size(width(), height());
-    scaleWidth = simulatedWidth / width();
-    scaleHeight = simulatedHeight / height();
-
-    Background = sf::RectangleShape(size);
-    Background.setFillColor(BackgroundColor);
-
-    entitiesGroupControl = new Entities(this);
-    foodsGroupControl = new Foods(this);
-
-    solver = new Solver(this);
-    solver->setOnEntityModelCreated([this](EntityModel* m) {
-        if (m)
-        {
-            entitiesGroupControl->buildControl(m);
-        }
-        });
-    solver->setOnEntityModelDeleted([this](EntityModel* m) {
-        if (m == selectedModel)
-        {
-            onEntityModelDeselected(selectedModel);
-            selectedModel = nullptr;
-        }
-        });
-    solver->setOnFoodModelCreated([this](FoodModel* m) {
-        if (m)
-        {
-            foodsGroupControl->buildControl(m);
-        }
-        });
-    solver->setOnFoodModelDeleted([this](FoodModel* m) {});
+    background = sf::RectangleShape(sf::Vector2f(250.0f, 250.0f));
+    background.setFillColor(sf::Color::Red);
 }
 
-void Simulation::onScroll(const double& amt)
+void Simulation::mousePressEvent(const float& mousePosX, const float& mousePosY)
 {
-    if (amt < 0) // up Wheel
-        zoomFactor += 1;
-    else if (amt > 0 && zoomFactor > 1) //down Wheel
-        zoomFactor -= 1;
+    //// Retrieve the hitboxes
+    ////entitiesGroupControl->computeHitBoxes();
+
+    //// Deselct model if one is already selected
+    //if (selectedModel)
+    //{
+    //    onEntityModelDeselected(selectedModel);
+    //}
+
+    //// Retrieve the new selected model
+    ////selectedModel = entitiesGroupControl->hasHitAControl(event->localPos().x(), event->localPos().y());
+
+    //// Do stuff
+    //if (selectedModel)
+    //{
+    //    onEntityModelSelected(selectedModel);
+    //}
+    //else
+    //{
+    //    onEntityModelDeselected(selectedModel);
+    //    solver->addFood(event->localPos().x() - width()/2.0, event->localPos().y() - height()/2.0);
+    //}
 }
 
-void Simulation::mousePressEvent(QMouseEvent* event)
+void Simulation::render(std::shared_ptr<sf::RenderWindow> window)
 {
-    // Retrieve the hitboxes
-    entitiesGroupControl->computeHitBoxes(this);
-
-    // Deselct model if one is already selected
-    if (selectedModel)
-    {
-        onEntityModelDeselected(selectedModel);
-    }
-
-    // Retrieve the new selected model
-    selectedModel = entitiesGroupControl->hasHitAControl(event->localPos().x(), event->localPos().y());
-
-    // Do stuff
-    if (selectedModel)
-    {
-        onEntityModelSelected(selectedModel);
-    }
-    else
-    {
-        onEntityModelDeselected(selectedModel);
-        solver->addFood(event->localPos().x() - width()/2.0, event->localPos().y() - height()/2.0);
-    }
-}
-
-void Simulation::onUpdate()
-{
-    if (playing)
-    {
-        solver->solve(((double)myTimer.interval()) / 1000);
-    }
-    render();
-}
-
-void Simulation::reset()
-{
-    pause();
-}
-
-void Simulation::render()
-{
-    // Clear canvas
-    clear();
-
     // Draw background
-    draw(Background);
+    window->draw(background);
 
-    // Draw controls
-    entitiesGroupControl->draw();
-    foodsGroupControl->draw();
-    onSimulationRenderTick(selectedModel);
-}
-
-double Simulation::getScaleWidth()
-{
-    return scaleWidth;
-}
-
-double Simulation::getScaleHeight()
-{
-    return scaleHeight;
-}
-
-void Simulation::setScaleWidth(const double& amt)
-{
-    scaleWidth = amt;
-}
-
-void Simulation::setScaleHeight(const double& amt)
-{
-    scaleHeight = amt;
+    //// Draw controls
+    //entitiesGroupControl->draw();
+    //foodsGroupControl->draw();
+    //onSimulationRenderTick(selectedModel);
 }
 
 void Simulation::setOnEntityModelSelected(std::function<void(EntityModel*)> func)
@@ -144,9 +61,4 @@ void Simulation::setOnEntityModelSelected(std::function<void(EntityModel*)> func
 void Simulation::setOnEntityModelDeselected(std::function<void(EntityModel*)> func)
 {
     onEntityModelDeselected = func;
-}
-
-void Simulation::setOnSimulationRenderTick(std::function<void(EntityModel*)> func)
-{
-    onSimulationRenderTick = func;
 }

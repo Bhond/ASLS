@@ -399,4 +399,4 @@ FodyWeavers.xsd
 
 # Custom
 out
-src/common.h
+src/main/common.h

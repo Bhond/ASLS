@@ -12,27 +12,27 @@ protected:
 	std::vector<sf::Shape*> shapes;
 	std::vector<float> hitBox;
 	bool selected{ false };
-	modelT* model{ nullptr };
+	std::shared_ptr<modelT> model{ nullptr };
 
 public:
 	~Control();
 
 protected:
-	Control(modelT* m);
+	Control(std::shared_ptr<modelT> m);
 
 public:
-	virtual void draw(sf::RenderWindow* w) = 0;
+	virtual void draw(std::shared_ptr<sf::RenderWindow> w) = 0;
 	virtual void buildGeometry() = 0;
-	virtual void updateGeometryPosition(sf::RenderWindow* w) = 0;
-	virtual void onSelected(sf::RenderWindow* w);
+	virtual void updateGeometryPosition(std::shared_ptr<sf::RenderWindow> w) = 0;
+	virtual void onSelected(std::shared_ptr<sf::RenderWindow> w);
 
 public:
-	void computeHitBox(sf::RenderWindow* w);
+	void computeHitBox(std::shared_ptr<sf::RenderWindow> w);
 
 public:
 	bool isSelected();
 	bool isHit(const int& x, const int& y);
-	modelT* getModel();
+	std::shared_ptr<modelT>& getModel();
 	Vector2 decode(const Vector2& v);
 	sf::Vector2f toVector2f(const Vector2& v);
 
@@ -42,7 +42,7 @@ public:
 };
 
 template <typename modelT>
-Control<modelT>::Control(modelT* m)
+Control<modelT>::Control(std::shared_ptr<modelT> m)
 	: model(m)
 {
 	hitBox.push_back(0.0f);
@@ -63,7 +63,7 @@ Control<modelT>::~Control()
 }
 
 template <typename modelT>
-void Control<modelT>::computeHitBox(sf::RenderWindow* w)
+void Control<modelT>::computeHitBox(std::shared_ptr<sf::RenderWindow> w)
 {
 	float minX{ (float)w->getSize().x };
 	float maxX{ 0.0f };
@@ -91,7 +91,7 @@ void Control<modelT>::computeHitBox(sf::RenderWindow* w)
 }
 
 template <typename modelT>
-void Control<modelT>::onSelected(sf::RenderWindow* w){}
+void Control<modelT>::onSelected(std::shared_ptr<sf::RenderWindow> w){}
 
 template <typename modelT>
 bool Control<modelT>::isSelected()
@@ -114,7 +114,7 @@ void Control<modelT>::setSelected(bool b)
 }
 
 template <typename modelT>
-modelT* Control<modelT>::getModel()
+std::shared_ptr<modelT>& Control<modelT>::getModel()
 {
 	return model;
 }

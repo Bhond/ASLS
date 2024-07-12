@@ -104,7 +104,6 @@ public:
 
 		~Node()
 		{
-			// Next is handled by genome -> bad?
 			next = nullptr;
 			delete selfConnection;
 			delete generator;
@@ -154,4 +153,5 @@ private:
 	void removeNode(Node* n);
 	void removeConnection(Connection* connection);
 	void removeConnectionMutation();
+
 };

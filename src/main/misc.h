@@ -59,6 +59,8 @@ static Color linearGradient(const double& c)
 /// 
 /// Conf
 /// 
+static const std::string confConfiguration = "configuration";
+static const std::string confGenomeMutations = "genomeMutations";
 static const std::string confInputs = "inputs";
 static const std::string confOutputs = "outputs";
 static const std::string confName = "name";
