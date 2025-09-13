@@ -1,4 +1,4 @@
-#include "configreader.h"
+#include "configreader.hpp"
 #include <boost/json/src.hpp>
 
 void ConfigReader::parseGenomeConfig()
@@ -6,7 +6,6 @@ void ConfigReader::parseGenomeConfig()
 	std::string path = ((std::string)PATH_RESOURCES) + "/genome.json";
     readInputs(path);
     readOuputs(path);
-
 }
 
 void ConfigReader::readMutations(const std::string& path)

@@ -4,6 +4,7 @@
 #include <math.h>
 
 const double Epsilon = 1e-7;
+const double PI = 2*acos(0.0);
 
 struct Vector2
 {

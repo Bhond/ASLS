@@ -398,5 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Custom
-out
-src/main/common.h
+build/
+src/main/common.hpp
+.vscode/

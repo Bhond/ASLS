@@ -1,7 +1,9 @@
-#include "genome.h"
+#include "genome.hpp"
 
 Genome::Genome()
 {
+
+	std::cout<<"init genome"<<std::endl;
 	generator = new std::default_random_engine();
 
 	// Create genome
@@ -69,8 +71,8 @@ Genome::~Genome()
 void Genome::update()
 {
 	// Generate mutations -> For now, add or remove node/connection, should be between generations
-	/*std::uniform_int_distribution<int> d0(0, config.dropout);
-	if (d0(*generator) == 0)
+	std::uniform_int_distribution<int> d0(0, config.dropout);
+	if ((true || d0(*generator) == 0))
 	{
 		addNodeMutation();
 	}
@@ -82,7 +84,7 @@ void Genome::update()
 	}
 
 	std::uniform_int_distribution<int> d2(0, config.dropout);
-	if (d2(*generator) == 0)
+	if (true || d2(*generator) == 0)
 	{
 		addConnectionMutation();
 	}
@@ -109,7 +111,17 @@ void Genome::update()
 	if (d6(*generator) == 0)
 	{
 		nodeSquashMutation();
-	}*/
+	}
+
+
+	// If shape changed perform some calculations
+	if (shapeChanged)
+	{
+		onShapeChanged();
+
+		// Reset for next step
+		shapeChanged = false;
+	}
 
 	// Activate
 	activate();
@@ -149,6 +161,48 @@ void Genome::activate()
 		{
 			// Store output
 		}
+		current = current->next;
+	}
+}
+
+void Genome::onShapeChanged() 
+{
+	// Compute node depth for drawing
+	computeNodesDepth();
+}
+
+
+void Genome::computeNodesDepth() 
+{	
+	// Rest output layer depth
+	// By design, will be set before reaching output nodes
+	outputLayerDepth = 1;
+	// Init loop
+	Node* current = root;
+	// Loop over the nodes: input -> hidden -> output 
+	while (current)
+	{
+		if (current->type == NodeTypes::Input)
+		{
+			current->depth = 0;
+		}
+		else if (current->type == NodeTypes::Output)
+		{
+			current->depth = outputLayerDepth;
+		}
+		else // Hidden
+		{
+			int depth{0};
+			for (Connection* c : current->incomingConnections)
+			{
+				depth = std::max(depth, c->from->depth + 1);
+			}
+			current->depth = depth;
+			// Compute outputLayerDepth
+			outputLayerDepth = std::max(outputLayerDepth, depth + 1);
+		}
+
+		// Increment
 		current = current->next;
 	}
 }
@@ -264,6 +318,7 @@ void Genome::addNode(Node* node)
 		{
 		case NodeTypes::Input:
 			addInputNode(node);
+			node->depth = 0;
 			break;
 		case Hidden:
 			addHiddenNode(node);
@@ -273,6 +328,8 @@ void Genome::addNode(Node* node)
 			break;
 		}
 	}
+	// Set shape changed
+	shapeChanged = true;
 }
 
 void Genome::addNodeMutation()
@@ -307,7 +364,10 @@ void Genome::addNodeMutation()
 				c1->gater = gater;
 		}
 		removeConnection(connection);
-	}		
+	}
+
+	// Set shape changed
+	shapeChanged = true;
 }
 
 void Genome::removeNodeMutation()
@@ -323,6 +383,9 @@ void Genome::removeNodeMutation()
 
 	// Remove it 
 	removeNode(current);
+
+	// Set shape changed
+	shapeChanged = true;
 }
 
 void Genome::addInputNode(Node* toInsert)
@@ -409,11 +472,11 @@ void Genome::addConnectionMutation()
 		std::uniform_int_distribution<int> d(0, pairs.size() - 1);
 		std::pair<Node*, Node*> p = pairs[d(*generator)];
 		addConnection(p.first, p.second);
+
+		// Set shape changed
+		shapeChanged = true;
 	}
-	else
-	{
-		return;
-	}
+	
 }
 
 void Genome::removeConnectionMutation()
@@ -422,6 +485,9 @@ void Genome::removeConnectionMutation()
 	{
 		std::uniform_int_distribution<int> d(0, connections.size() - 1);
 		removeConnection(connections[d(*generator)]);
+
+		// Set shape changed
+		shapeChanged = true;
 	}
 }
 
@@ -442,6 +508,7 @@ bool Genome::areConnected(Node* n0, Node* n1)
 
 Genome::Connection* Genome::addConnection(Node* from, Node* to)
 {
+	// Create connection
 	Connection* c = new Connection(from, to);
 	to->incomingConnections.push_back(c);
 	connections.push_back(c);

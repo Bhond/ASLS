@@ -5,8 +5,8 @@
 #include <vector>
 #include <fstream>
 
-#include "common.h"
-#include "misc.h"
+#include "common.hpp"
+#include "misc.hpp"
 
 class ConfigReader
 {

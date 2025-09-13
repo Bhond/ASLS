@@ -1,4 +1,4 @@
-#include "foodmodel.h"
+#include "foodmodel.hpp"
 
 FoodModel::FoodModel()
 	: Model()

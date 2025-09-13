@@ -3,8 +3,8 @@
 #include <iostream>
 #include <math.h>
 #include <SFML/Graphics.hpp>
-#include "control.h"
-#include "../models/entitymodel.h"
+#include "control.hpp"
+#include "../models/entitymodel.hpp"
 
 class Entity : public Control<EntityModel>
 {
@@ -14,13 +14,13 @@ private:
 
 public:
 	Entity() = delete;
-	Entity(std::shared_ptr<EntityModel> m);
+	Entity(EntityModel* m);
 	~Entity();
 
 public:
 	void buildGeometry() override;
-	void updateGeometryPosition(std::shared_ptr<sf::RenderWindow> w) override;
-	void draw(std::shared_ptr<sf::RenderWindow> w) override;
-	void onSelected(std::shared_ptr<sf::RenderWindow> w) override;
+	void updateGeometryPosition(sf::RenderWindow& w) override;
+	void draw(sf::RenderWindow& w) override;
+	void onSelected(sf::RenderWindow& w) override;
 
 };

@@ -5,7 +5,7 @@
 #include <random>
 #include <map>
 
-#include "../main/configreader.h"
+#include "../main/configreader.hpp"
 
 class Genome
 {
@@ -75,6 +75,7 @@ public:
 		double activation{ 0.0 };
 		std::vector<Connection*> incomingConnections;
 		Connection* selfConnection{ nullptr };
+		int depth{0};
 
 	private:
 		std::default_random_engine* generator{ nullptr };
@@ -117,8 +118,10 @@ public:
 	std::vector<Connection*> connections;
 	int inputSize{ 0 };
 	int outputSize{ 0 };
-
+	int outputLayerDepth {1};
+	
 private:
+	bool shapeChanged { false };
 	std::default_random_engine* generator{ nullptr };
 	int size{ 0 };
 
@@ -136,6 +139,8 @@ public:
 private:
 	void activate();
 	void squash(Node* n);
+	void onShapeChanged();
+	void computeNodesDepth();
 
 	void addNode(Node* n);
 	void addNodeMutation();

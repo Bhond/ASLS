@@ -1,0 +1,122 @@
+{
+  "configuration": {
+    "genomeMutations": [
+      {
+        "name": "addNode",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "removeNode",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "addConnection",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "removeConnection",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "weight",
+        "mean": 0.0,
+        "std": 1.0
+      },
+      {
+        "name": "gater",
+        "mean": 0.0,
+        "std": 1.0
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "name": "Health",
+      "mean": 1.0,
+      "std": 1.0
+    },
+    {
+      "name": "Hunger",
+      "mean": 1.0,
+      "std": 1.0
+    },
+    {
+      "name": "Horniness",
+      "mean": 1.0,
+      "std": 1.0
+    },
+    {
+      "name": "Size",
+      "mean": 1.0,
+      "std": 0.2
+    },
+    {
+      "name": "EyeSightRadius",
+      "mean": 10.0,
+      "std": 1.0
+    },
+    {
+      "name": "EyeSightAngle",
+      "mean": 10.0,
+      "std": 1.0
+    },
+    {
+      "name": "Speed",
+      "mean": 1.0,
+      "std": 0.2
+    },
+    {
+      "name": "FoodPositionX",
+      "mean": 1.0,
+      "std": 1.0
+    },
+    {
+      "name": "FoodPositionY",
+      "mean": 1.0,
+      "std": 1.0
+    },
+    {
+      "name": "NMutation",
+      "mean": 1.0,
+      "std": 0.2
+    },
+    {
+      "name": "PMutation",
+      "mean": 1.0,
+      "std": 0.2
+    },
+    {
+      "name": "ColorR",
+      "mean": 0.5,
+      "std": 0.5
+    },
+    {
+      "name": "ColorG",
+      "mean": 0.5,
+      "std": 0.5
+    },
+    {
+      "name": "ColorB",
+      "mean": 0.5,
+      "std": 0.5
+    }
+  ],
+  "outputs": [
+    {
+      "name": "TurnAngle",
+      "squash": "Sigmoid"
+    },
+    {
+      "name": "PositionIncrement",
+      "squash": "Sigmoid"
+    },
+    {
+      "name": "LayEgg",
+      "squash": "Sigmoid"
+    }
+  ]
+}

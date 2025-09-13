@@ -1,4 +1,4 @@
-#include "entities.h"
+#include "entities.hpp"
 
 Entities::Entities()
 	: GroupControl()
@@ -10,8 +10,8 @@ Entities::~Entities()
 	GroupControl::~GroupControl();
 }
 
-void Entities::buildControl(std::shared_ptr<EntityModel> model)
+void Entities::buildControl(EntityModel* model)
 {
-	GroupControl::buildControl(std::make_shared<Entity>(model));
+	GroupControl::buildControl(new Entity(model));
 }
 
