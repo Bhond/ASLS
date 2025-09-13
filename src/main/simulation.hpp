@@ -8,9 +8,9 @@
 
 // #include "SFML/Graphics.hpp"
 
-// // #include "../main/misc.h"
-// // #include "../graphics/entities.h"
-// // #include "../graphics/foods.h"
+// // #include "main/misc.h"
+// // #include "graphics/entities.h"
+// // #include "graphics/foods.h"
 
 // class Simulation
 // {
@@ -56,10 +56,10 @@
 #include <chrono>
 #include <ctime>
 
-#include "../main/misc.hpp"
-#include "../graphics/entities.hpp"
-#include "../models/solver.hpp"
-#include "brain.hpp"
+#include "main/misc.hpp"
+#include "graphics/controls/entities.hpp"
+#include "models/solver.hpp"
+#include "graphics/ui/brain.hpp"
 
 class Simulation
 {

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "../main/mymath.hpp"
+#include "main/mymath.hpp"
 
 template <typename modelT>
 class Control

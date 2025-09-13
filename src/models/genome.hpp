@@ -5,7 +5,7 @@
 #include <random>
 #include <map>
 
-#include "../main/configreader.hpp"
+#include "main/configreader.hpp"
 
 class Genome
 {

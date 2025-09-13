@@ -4,7 +4,7 @@
 #include <math.h>
 #include <SFML/Graphics.hpp>
 #include "control.hpp"
-#include "../models/entitymodel.hpp"
+#include "models/entitymodel.hpp"
 
 class Entity : public Control<EntityModel>
 {

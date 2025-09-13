@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 #include <random>
-#include "../main/mymath.hpp"
+#include "main/mymath.hpp"
 #include "entitymodel.hpp"
 // #include "foodmodel.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../main/mymath.hpp"
+#include "main/mymath.hpp"
 
 class Model
 {

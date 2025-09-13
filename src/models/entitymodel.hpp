@@ -5,8 +5,8 @@
 
 #include "genome.hpp"
 #include "model.hpp"
-#include "../main/mymath.hpp"
-#include "../main/misc.hpp"
+#include "main/mymath.hpp"
+#include "main/misc.hpp"
 
 class EntityModel : public Model
 {

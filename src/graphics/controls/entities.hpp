@@ -2,7 +2,7 @@
 
 #include "entity.hpp"
 #include "groupcontrol.hpp"
-#include "../models/entitymodel.hpp"
+#include "models/entitymodel.hpp"
 
 class Entities : public GroupControl<EntityModel>
 {

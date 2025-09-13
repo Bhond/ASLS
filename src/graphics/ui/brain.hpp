@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "SFML/Graphics.hpp"
-#include "../main/misc.hpp"
-#include "../models/genome.hpp"
+#include "main/misc.hpp"
+#include "models/genome.hpp"
 
 class Brain
 {
