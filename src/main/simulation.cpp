@@ -65,7 +65,7 @@
 void Simulation::init()
 {   
     // Window
-    sf::Vector2u windowSize{unsigned(1000), unsigned(1000)};
+    sf::Vector2u windowSize{unsigned(1500), unsigned(1200)};
     window = sf::RenderWindow(sf::VideoMode(windowSize), "ASLS");
 
     // UI
@@ -130,6 +130,19 @@ void Simulation::handleInputs()
             if (keyPressed->code == sf::Keyboard::Key::Space)
                 isPlaying = !isPlaying;
         }
+        else if (auto buttonPressed = evt->getIf<sf::Event::MouseButtonPressed>())
+        {
+            if (buttonPressed->button == sf::Mouse::Button::Left) {
+                EntityModel* candidate = entitiesGroupControl->hasHitAControl(buttonPressed->position.x, buttonPressed->position.y);
+                if (candidate) {
+                    brain->setSelectedGenome(candidate->genome);
+                }
+                else {
+                    brain->setSelectedGenome(nullptr);
+                }
+                candidate = nullptr;
+            }
+        }
     }
 }
 
@@ -137,9 +150,6 @@ void Simulation::update()
 {
 	// Update the models
 	solver->solve(dt_s);
-
-    if (solver->entities.size() > 0)
-        brain->setSelectedGenome(solver->entities[0]->genome);
 }
 
 void Simulation::render()
@@ -147,10 +157,12 @@ void Simulation::render()
     // Clear and Draw background
     window.clear(sf::Color::Black);
 
-    // UI
-    // gui->draw();
+    // Controls
+    entitiesGroupControl->computeHitBoxes(window);
     entitiesGroupControl->draw(window);
 
+    // UI
+    // gui->draw();
     brain->drawGenome(window);
 
     // Display window

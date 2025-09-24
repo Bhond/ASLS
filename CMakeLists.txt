@@ -168,30 +168,30 @@ endif()
 # Executable target
 # -------------------------
 if (ASLS_MAIN_SRC)
-  add_executable(asls_app ${ASLS_MAIN_SRC})
-  target_link_libraries(asls_app PRIVATE asls_core)
+  add_executable(ASLS ${ASLS_MAIN_SRC})
+  target_link_libraries(ASLS PRIVATE asls_core)
 
   # propagate resource dir as a preprocessor define for runtime usage
-  target_compile_definitions(asls_app PRIVATE RESOURCE_DIR=\"${PATH_RESOURCES}\")
+  target_compile_definitions(ASLS PRIVATE RESOURCE_DIR=\"${PATH_RESOURCES}\")
 
   # if using ASAN, also apply to executable
   if (ASLS_ENABLE_ASAN AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(asls_app PRIVATE
+    target_compile_options(ASLS PRIVATE
       $<$<CONFIG:Debug>:-g -fsanitize=address -fno-omit-frame-pointer>
     )
-    target_link_options(asls_app PRIVATE
+    target_link_options(ASLS PRIVATE
       $<$<CONFIG:Debug>:-fsanitize=address>
     )
   endif()
 else()
-  message(WARNING "No main.cpp found under src/main. Skipping asls_app creation.")
+  message(WARNING "No main.cpp found under src/main. Skipping ASLS creation.")
 endif()
 
 # -------------------------
 # Install rules (optional)
 # -------------------------
 include(GNUInstallDirs)
-install(TARGETS asls_app RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS ASLS RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(TARGETS asls_core ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/

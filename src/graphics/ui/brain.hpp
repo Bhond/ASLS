@@ -11,11 +11,11 @@ class Brain
 {
 
 private:
-	const double nodeRadius{ 10.0 };
+	const double nodeRadius{ 5.0 };
 	Genome* selectedGenome{ nullptr };
 
 public:
-	Brain( unsigned int frameTime = 0);
+	Brain() = default;
 	~Brain();
 
 public:

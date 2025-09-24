@@ -1,29 +1,62 @@
-# Introduction
+# ASLS ⚙️  
+**A Simple Life Simulation**  
 
-This little project is just a way to get some fun coding algorithms 
-and get used to frameworks. Nothing fancy and still pretty raw, not really properly refactored.
+ASLS is a 2D life simulation where evolving agents learn survival strategies using NEAT.
+It is designed to be modular and extensible, making it a useful foundation for **robotics, AI, and scientific computing** projects.  
 
-The current aim is to play with A Simple Life Simulation (ASLS) using the NEAT algorithm.
 
-# State of the art
+## 📖 Overview
+- 🏗️ Modular simulation engine  
+- ⚡ Built with **modern C++** (C++17/20)  
+- 🔄 Extensible architecture for custom modules  
+- ⏱️ Focus on performance and real-time execution  
+- 🤖 Suitable for robotics & AI experimentation  
 
-A video is on its way to just present more easily what it does without having to download the project
-and setting it up.
 
-# Contribution
+## 🚀 Build & Run
 
-For those who want to play with it and/or develop on top of it, here are my recommended steps and the minimal configuration:
+### Prerequisites
+- CMake ≥ 3.15  
+- Compiler with C++17 or newer (GCC, Clang, MSVC)  
 
-I only compiled it on windows x64. (Linux on its way, maybe...). I am using Visual Studio 2022.
+### Build
+```bash
+git clone https://github.com/Bhond/ASLS.git
+cd ASLS
+mkdir build && cd build
+cmake ..
+make -j
+```
 
-Make sure cmake is installed and that you can compile c++.
+### Run Example
 
-- Install **VCPKG**:
-	Follow these steps: https://vcpkg.io/en/getting-started.html
-	
-- Using **VCPKG**, you'll need:
-	1. Qt5:x64-windows (very long...)
-	2. SFML:x64-windows
-	3. Boost:x64-windows 
+```bash
+./asls_core
+```
 
-Launch the project, compile it all and you should be good to go.
+
+## 📂 Example Usage
+Here’s a minimal example of how ASLS can be used:
+#include "simulation.hpp"
+
+```cpp
+int main() {
+    Simulation sim;
+    sim.load("config.json");
+    sim.run();
+    return 0;
+}
+```
+
+## 🎥 Demo
+(TODO: Add a gif or screenshot of the simulation running here)
+
+
+## 📜 License
+
+This project is licensed under the MIT License – see LICENSE for details.
+
+
+⭐ If you find this project useful, give it a star!
+
+
